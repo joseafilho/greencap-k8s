@@ -7,12 +7,14 @@ echo "=========================================="
 echo "🔧 Configuring hosts file"
 echo "=========================================="
 
-if grep -qE '^[[:space:]]*127\.0\.0\.1[[:space:]]+domain\.local([[:space:]]|$)' /etc/hosts; then
-    echo "Entry '127.0.0.1 domain.local' already exists /etc/hosts, skipping..."
-else
-    sudo bash -c 'echo "# Added by Greencap installer:" >> /etc/hosts'
-    sudo bash -c 'echo "127.0.0.1 domain.local" >> /etc/hosts'
+# Backup hosts file if backup doesn't exist yet
+if [ -f /etc/hosts ] && [ ! -f /etc/hosts.gcbck ]; then
+    echo "💾 Creating backup of /etc/hosts..."
+    sudo cp /etc/hosts /etc/hosts.gcbck
+    echo "Backup created: /etc/hosts.gcbck"
 fi
+
+sudo bash -c 'echo "# Added by Greencap installer:" >> /etc/hosts'
 
 echo ""
 echo "=========================================="

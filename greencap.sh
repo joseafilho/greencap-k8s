@@ -19,6 +19,7 @@ AWS_PUBLIC_IP=""
 USER_NAME_INSTALL="vagrant"
 SETUP_TYPE="minimal"
 CLEAN_MODE=false
+USE_PRE_INSTALLED_TOOLS=false
 
 # Function to show usage
 show_usage() {
@@ -44,6 +45,7 @@ show_usage() {
     echo "  --local                 Execute local setup script"
     echo "  --user-name NAME        User name for local installation (default: vagrant)"
     echo "  --setup-type TYPE       Setup type: minimal, full, or custom (default: minimal)"
+    echo "  --use-pre-installed-tools  Use existing Docker, Kind, and kubectl installations"
     echo ""
     echo "General Options:"
     echo "  --help                  Show this help message"
@@ -73,6 +75,7 @@ show_usage() {
     echo "    $0 --local"
     echo "    $0 --local --setup-type full"
     echo "    $0 --local --setup-type minimal --user-name myuser"
+    echo "    $0 --local --use-pre-installed-tools"
     echo ""
     echo "  Clean/Destroy environment:"
     echo "    $0 --clean --local            # Clean local environment"
@@ -211,18 +214,21 @@ deploy_vagrant() {
     VBoxManage modifyvm $VM_NAME --memory $MEMORY --cpus $CPUS
 
     echo "Reloading VM setup..."
-    SETUP_KIND_K8S=1 SETUP_TYPE="$SETUP_TYPE" vagrant reload --provision
+    SETUP_KIND_K8S=1 SETUP_TYPE="$SETUP_TYPE" USE_PRE_INSTALLED_TOOLS="$USE_PRE_INSTALLED_TOOLS" vagrant reload --provision
 
     echo ""
     echo "=========================================="
     echo "GreenCap K8s installed."
     echo "Environment created successfully."
+    if [ "$USE_PRE_INSTALLED_TOOLS" = true ]; then
+        echo "Using pre-installed tools: Docker, Kind, kubectl"
+    fi
     echo "=========================================="
 }
 
 # Function to execute local setup
 deploy_local() {
-    PROVIDER="$PROVIDER" USER_NAME_INSTALL="$USER_NAME_INSTALL" SETUP_TYPE="$SETUP_TYPE" ./installers/run-installers.sh
+    PROVIDER="$PROVIDER" USER_NAME_INSTALL="$USER_NAME_INSTALL" SETUP_TYPE="$SETUP_TYPE" USE_PRE_INSTALLED_TOOLS="$USE_PRE_INSTALLED_TOOLS" ./installers/run-installers.sh
 
     echo ""
     echo "=========================================="
@@ -231,6 +237,9 @@ deploy_local() {
     echo "Local environment is now configured."
     echo "User name used: $USER_NAME_INSTALL"
     echo "Setup type used: $SETUP_TYPE"
+    if [ "$USE_PRE_INSTALLED_TOOLS" = true ]; then
+        echo "Using pre-installed tools: Docker, Kind, kubectl"
+    fi
     echo "Check the output above for any errors or warnings."
     echo "=========================================="
 }
@@ -389,6 +398,10 @@ while [[ $# -gt 0 ]]; do
             CPUS="$2"
             shift 2
             ;;
+        --use-pre-installed-tools)
+            USE_PRE_INSTALLED_TOOLS=true
+            shift
+            ;;
         --clean)
             CLEAN_MODE=true
             shift
@@ -457,6 +470,9 @@ elif [ "$PROVIDER" = "local" ]; then
     echo "User Name: $USER_NAME_INSTALL"
 fi
 echo "Setup Type: $SETUP_TYPE"
+if [ "$USE_PRE_INSTALLED_TOOLS" = true ]; then
+    echo "Using pre-installed tools: Yes"
+fi
 echo "=========================================="
 
 if [ "$PROVIDER" = "aws" ]; then

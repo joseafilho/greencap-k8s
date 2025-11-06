@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
   # Declare environment variables.
   with_gui = ENV["WITH_GUI"] == "1"
   setup_kind_k8s = ENV["SETUP_KIND_K8S"] == "1"
+  use_pre_installed_tools = ENV["USE_PRE_INSTALLED_TOOLS"] == "true"
 
   # Install docker and running simple hello-world.
   config.vm.provision "docker" do |d|
@@ -51,10 +52,15 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "./helm-values", destination: "$HOME/greencap/"
 
     # Run install tools.
-    config.vm.provision "shell", inline: <<-SHELL, env: { "SETUP_TYPE" => ENV['SETUP_TYPE'] }
+    config.vm.provision "shell", inline: <<-SHELL, env: { "SETUP_TYPE" => ENV['SETUP_TYPE'], "USE_PRE_INSTALLED_TOOLS" => ENV['USE_PRE_INSTALLED_TOOLS'] }
       echo "Running installer scripts with setup type: $SETUP_TYPE"
       cd /home/vagrant/greencap
-      ./greencap.sh --local --setup-type $SETUP_TYPE --user-name "vagrant"
+      
+      if [ "$USE_PRE_INSTALLED_TOOLS" = "true" ]; then
+        ./greencap.sh --local --setup-type $SETUP_TYPE --user-name "vagrant" --use-pre-installed-tools
+      else
+        ./greencap.sh --local --setup-type $SETUP_TYPE --user-name "vagrant"
+      fi
     SHELL
   end
 end

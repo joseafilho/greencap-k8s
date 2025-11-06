@@ -7,6 +7,13 @@ echo "=========================================="
 echo "Configuring Docker Daemon for Insecure Registries"
 echo "=========================================="
 
+# Backup daemon.json if it exists and backup doesn't exist yet
+if [ -f /etc/docker/daemon.json ] && [ ! -f /etc/docker/daemon.json.gcbck ]; then
+    echo "💾 Creating backup of /etc/docker/daemon.json..."
+    sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.gcbck
+    echo "Backup created: /etc/docker/daemon.json.gcbck"
+fi
+
 # Configure docker to use insecure registry
 echo "📝 Creating Docker daemon configuration..."
 sudo cat > /etc/docker/daemon.json << 'EOF'
