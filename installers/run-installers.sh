@@ -9,37 +9,39 @@ if [ "$USE_PRE_INSTALLED_TOOLS" = "true" ]; then
     echo "=========================================="
     echo "Using pre-installed tools (Docker, Kind, kubectl)"
     echo "=========================================="
-    
+
     # Verify required tools are available
     echo "🔍 Verifying pre-installed tools..."
-    
+
     if ! command -v docker &> /dev/null; then
         echo "❌ Error: Docker is not installed or not in PATH"
         exit 1
     fi
     echo "✅ Docker found: $(docker --version)"
-    
+
     if ! command -v kind &> /dev/null; then
         echo "❌ Error: Kind is not installed or not in PATH"
         exit 1
     fi
     echo "✅ Kind found: $(kind --version)"
-    
+
     if ! command -v kubectl &> /dev/null; then
         echo "❌ Error: kubectl is not installed or not in PATH"
         exit 1
     fi
     echo "✅ kubectl found: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
-    
+
     echo ""
     echo "All required tools are available!"
     echo "Skipping installation of Docker, Kind, and kubectl"
     echo "=========================================="
 else
-    ./installers/kind-install.sh $USER_NAME_INSTALL
-    ./installers/kubectl-install.sh $USER_NAME_INSTALL
+    ./installers/kind-install.sh
+    ./installers/kubectl-install.sh
 fi
 
+./installers/configure-kind.sh $USER_NAME_INSTALL
+./installers/configure-kubectl.sh $USER_NAME_INSTALL
 ./installers/configure-docker-daemon.sh
 ./installers/configure-hosts.sh
 ./installers/helm-install.sh
