@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=GreenCap K8s Installer
+Comment=Instalador gráfico para GreenCap K8s
+Comment[en]=Graphical installer for GreenCap K8s
+Exec=/bin/bash -c 'cd "$(dirname "%k")" && ./launch_wizard.sh'
+Icon=utilities-terminal
+Terminal=false
+Categories=Development;System;
+Keywords=kubernetes;k8s;docker;installer;greencap;
+StartupNotify=true
+
+

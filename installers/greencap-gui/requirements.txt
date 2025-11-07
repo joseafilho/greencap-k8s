@@ -1,0 +1,11 @@
+# GreenCap K8s Installer Wizard Requirements
+# Python 3.6+
+
+# Tkinter is usually included with Python, but may need to be installed separately on some Linux distributions
+# On Ubuntu/Debian: sudo apt-get install python3-tk
+# On Fedora: sudo dnf install python3-tkinter
+# On Arch: sudo pacman -S tk
+
+# No additional packages required - using only Python standard library
+
+

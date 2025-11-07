@@ -46,10 +46,14 @@ show_usage() {
     echo "  --setup-type TYPE       Setup type: minimal, full, or custom (default: minimal)"
     echo ""
     echo "General Options:"
+    echo "  --wizard                Launch interactive wizard installer (GUI mode)"
     echo "  --help                  Show this help message"
     echo "  --clean                 Clean the environment"
     echo ""
     echo "Examples:"
+    echo "  Interactive wizard (recommended for beginners):"
+    echo "    $0 --wizard"
+    echo ""
     echo "  Vagrant with GUI:"
     echo "    $0 --vagrant --memory 8192 --cpus 4"
     echo "    $0 --vagrant --memory 4096 --cpus 2"
@@ -78,6 +82,38 @@ show_usage() {
     echo "    $0 --clean --local            # Clean local environment"
     echo "    $0 --clean --vagrant          # Clean Vagrant environment"
     echo "    $0 --clean --aws              # Clean AWS environment"
+}
+
+# Function to launch wizard
+launch_wizard() {
+    echo "🧙 Launching GreenCap Wizard..."
+    echo ""
+    
+    WIZARD_SCRIPT="./installers/greencap-gui/greencap_wizard.py"
+    
+    if [ ! -f "$WIZARD_SCRIPT" ]; then
+        echo "❌ Error: Wizard script not found at $WIZARD_SCRIPT"
+        exit 1
+    fi
+    
+    # Check if Python 3 is available
+    if ! command -v python3 &> /dev/null; then
+        echo "❌ Python 3 not found. Please install Python 3 to use the wizard."
+        exit 1
+    fi
+    
+    # Check if dependencies are installed
+    if ! python3 -c "import InquirerPy" 2>/dev/null; then
+        echo "📦 Installing wizard dependencies..."
+        pip install -r ./installers/greencap-gui/requirements.txt || {
+            echo "❌ Failed to install dependencies"
+            exit 1
+        }
+    fi
+    
+    # Launch the wizard
+    python3 "$WIZARD_SCRIPT"
+    exit $?
 }
 
 # Function to validate AWS prerequisites
@@ -392,6 +428,9 @@ while [[ $# -gt 0 ]]; do
         --clean)
             CLEAN_MODE=true
             shift
+            ;;
+        --wizard)
+            launch_wizard
             ;;
         --help)
             show_usage
