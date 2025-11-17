@@ -322,6 +322,7 @@ clean_aws() {
 # Function to clean local environment
 clean_local() {
     echo "🗑️  Cleaning local environment..."
+    ./installers/clean-hosts.sh
     kind delete cluster --name greencap-k8s
     echo "Local environment cleaned successfully."
 }

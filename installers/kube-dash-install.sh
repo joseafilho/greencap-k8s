@@ -13,7 +13,14 @@ sudo bash -c 'echo "127.0.0.1 kubernetes-dashboard.greencap" >> /etc/hosts'
 kubectl apply -f ./infra-code-manifests/kubernetes-dashboard/kube-dash.yaml
 kubectl apply -f ./infra-code-manifests/kubernetes-dashboard/dash-admin.yaml
 kubectl -n kubernetes-dashboard create token admin-user; echo
-kubectl apply -f ./infra-code-manifests/kubernetes-dashboard/dash-ing.yaml
+
+# Using Gateway API HTTPRoute with HTTPS proxy (best practice solution)
+echo "Deploying Dashboard HTTP→HTTPS proxy..."
+kubectl apply -f ./infra-code-manifests/kubernetes-dashboard/dashboard-proxy.yaml
+kubectl wait --for=condition=ready pod -l app=dashboard-proxy -n kubernetes-dashboard --timeout=60s
+
+echo "Deploying HTTPRoute..."
+kubectl apply -f ./infra-code-manifests/kubernetes-dashboard/dash-httproute.yaml
 
 echo "*************************"
 echo "==> Token to access kubernetes dashboard."

@@ -31,7 +31,8 @@ kind load docker-image tech-docs:latest --name greencap-k8s
 echo "Deploying TechDocs..."
 kubectl apply -f $TECH_DOCS_DIR/infra/deployment.yaml
 kubectl apply -f $TECH_DOCS_DIR/infra/service.yaml
-kubectl apply -f $TECH_DOCS_DIR/infra/ingress.yaml
+# Using Gateway API HTTPRoute instead of deprecated Ingress
+kubectl apply -f $TECH_DOCS_DIR/infra/httproute.yaml
 
 # Wait for pods to be ready
 echo "⏳ Waiting for pods to be ready..."

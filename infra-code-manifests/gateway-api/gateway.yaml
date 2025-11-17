@@ -1,0 +1,55 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: greencap-gateway
+  namespace: nginx-gateway
+  labels:
+    app: greencap-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  # HTTP listener on port 80
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
+  # HTTPS listener on port 443 with TLS termination
+  - name: https
+    protocol: HTTPS
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: greencap-tls-cert
+        namespace: nginx-gateway
+---
+# Service to expose the Gateway (NodePort for Kind cluster)
+apiVersion: v1
+kind: Service
+metadata:
+  name: greencap-gateway-service
+  namespace: nginx-gateway
+  labels:
+    app: greencap-gateway
+spec:
+  type: NodePort
+  selector:
+    gateway.networking.k8s.io/gateway-name: greencap-gateway
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: 30001
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 443
+    nodePort: 30002
+    protocol: TCP
+

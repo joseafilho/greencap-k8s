@@ -1,0 +1,133 @@
+# Dashboard HTTP→HTTPS Proxy
+# This proxy receives HTTP requests from the Gateway and forwards them as HTTPS to the dashboard backend
+# This is a proper solution until NGINX Gateway Fabric has native backend HTTPS support
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-proxy-config
+  namespace: kubernetes-dashboard
+data:
+  nginx.conf: |
+    events {
+      worker_connections 1024;
+    }
+    
+    http {
+      # Upstream pointing to the real dashboard service (HTTPS)
+      upstream dashboard_backend {
+        server kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local:443;
+      }
+      
+      server {
+        listen 8080;
+        server_name _;
+        
+        # Accept HTTP and proxy to HTTPS backend
+        location / {
+          proxy_pass https://dashboard_backend;
+          
+          # SSL settings for backend connection
+          proxy_ssl_verify off;  # Dashboard uses self-signed cert
+          proxy_ssl_server_name on;
+          
+          # Standard proxy headers
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          
+          # WebSocket support (dashboard uses WebSockets)
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          
+          # Timeouts
+          proxy_connect_timeout 30s;
+          proxy_send_timeout 30s;
+          proxy_read_timeout 30s;
+        }
+        
+        # Health check endpoint
+        location /healthz {
+          access_log off;
+          return 200 "OK\n";
+          add_header Content-Type text/plain;
+        }
+      }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-proxy
+  namespace: kubernetes-dashboard
+  labels:
+    app: dashboard-proxy
+    component: proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-proxy
+  template:
+    metadata:
+      labels:
+        app: dashboard-proxy
+    spec:
+      containers:
+      - name: nginx-proxy
+        image: nginx:1.27-alpine
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: dashboard-proxy-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-proxy
+  namespace: kubernetes-dashboard
+  labels:
+    app: dashboard-proxy
+spec:
+  type: ClusterIP
+  selector:
+    app: dashboard-proxy
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+
+
