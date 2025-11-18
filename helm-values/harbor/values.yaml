@@ -1,19 +1,14 @@
-# Harbor Helm Values - Configuration without HTTPS
-# This file contains the configuration to install Harbor via Helm without enabling HTTPS
+# Harbor Helm Values - Configuration with Gateway API
+# This file contains the configuration to install Harbor via Helm using Gateway API (HTTPRoute)
 
 expose:
-  type: ingress
-  ingress:
-    className: nginx
-    hosts:
-      core: core.harbor.greencap
-      notary: notary.harbor.greencap
-    annotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-      ingress.kubernetes.io/ssl-redirect: "false"
+  type: clusterIP
+  clusterIP:
+    name: harbor
+    ports:
+      httpPort: 80
+      httpsPort: 443
+      notaryPort: 4443
   tls:
     enabled: false
 
@@ -113,6 +108,7 @@ redis:
 secretKey: not-a-secure-key
 
 # Network configurations
+# Access via Gateway API: HTTP on port 30001, HTTPS on port 30002
 externalURL: http://core.harbor.greencap:30001
 
 # Component configurations

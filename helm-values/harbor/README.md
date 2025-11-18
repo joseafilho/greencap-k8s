@@ -6,11 +6,10 @@ This document explains how to access Harbor for the first time after installatio
 
 ## Access Address
 
-Harbor is exposed via Ingress at the address:
+Harbor is exposed via Gateway API (HTTPRoute) at the following addresses:
 
-```
-https://core.harbor.greencap:30002
-```
+- **HTTP:** `http://core.harbor.greencap:30001`
+- **HTTPS:** `https://core.harbor.greencap:30002`
 
 ## Default Credentials
 
@@ -21,9 +20,11 @@ https://core.harbor.greencap:30002
 
 ## First Access
 
-1. Open the browser and access: `https://core.harbor.greencap:30002`
+1. Open the browser and access: `http://core.harbor.greencap:30001` or `https://core.harbor.greencap:30002`
 2. Log in with the credentials above
 3. On the first login, Harbor may request that you change the `admin` user password
+
+> **Note:** Harbor is now exposed via Gateway API using HTTPRoute resources instead of traditional Ingress.
 
 ## 5. Docker Operations
 

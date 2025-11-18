@@ -28,9 +28,9 @@ if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$MONITORING
     ./installers/monitoring-install.sh
 fi
 
-# if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$HARBOR_INSTALL" == "true" ]]; then
-#     ./installers/harbor-install.sh
-# fi
+if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$HARBOR_INSTALL" == "true" ]]; then
+    ./installers/harbor-install.sh
+fi
 
 # if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$GITLAB_INSTALL" == "true" ]]; then
 #     ./installers/gitlab-install.sh
