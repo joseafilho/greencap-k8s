@@ -28,7 +28,7 @@ echo "🚀 Deploying ecom-python..."
 export POSTGRES_PASSWORD=$(kubectl get secret postgres-17 -n postgresql -o jsonpath="{.data.POSTGRES_PASSWORD}" | base64 -d)
 envsubst < $ECOM_PYTHON_DIR/infra/deployment.yaml | kubectl apply -f -
 kubectl apply -f $ECOM_PYTHON_DIR/infra/service.yaml
-kubectl apply -f $ECOM_PYTHON_DIR/infra/ingress.yaml
+kubectl apply -f $ECOM_PYTHON_DIR/infra/httproute.yaml
 
 echo ""
 echo "=========================================="

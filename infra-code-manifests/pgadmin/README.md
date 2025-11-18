@@ -2,7 +2,7 @@
 
 # Accessing pgAdmin on Kubernetes
 
-This document explains how to access pgAdmin4 installed on the Kubernetes cluster via Helm and Ingress.
+This document explains how to access pgAdmin4 installed on the Kubernetes cluster via Helm and Gateway API (HTTPRoute).
 
 ```
 http://pgadmin.greencap:30001/

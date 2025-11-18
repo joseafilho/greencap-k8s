@@ -36,13 +36,13 @@ fi
 #     ./installers/gitlab-install.sh
 # fi
 
-# if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$POSTGRES_INSTALL" == "true" ]]; then
-#     ./installers/postgres-install.sh
-# fi
+if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$POSTGRES_INSTALL" == "true" ]]; then
+    ./installers/postgres-install.sh
+fi
 
-# if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$ECOM_PYTHON_INSTALL" == "true" ]]; then
-#     ./installers/ecom-python-install.sh
-# fi
+if [[ "$SETUP_TYPE" == "full" ]] || [[ "$SETUP_TYPE" == "custom" && "$ECOM_PYTHON_INSTALL" == "true" ]]; then
+    ./installers/ecom-python-install.sh
+fi
 
 USER_NAME_INSTALL="$USER_NAME_INSTALL" ./installers/configure-shortcuts.sh
 sudo bash -c 'echo "# [end:greencap]" >> /etc/hosts'

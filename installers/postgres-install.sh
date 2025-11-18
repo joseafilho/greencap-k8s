@@ -38,7 +38,7 @@ sudo bash -c 'echo "127.0.0.1 pgadmin.greencap" >> /etc/hosts'
 # Install pgadmin.
 echo "🚀 Installing pgadmin..."
 helm install pgadmin runix/pgadmin4 --set env.email=admin@admin.com --set env.password=admin-user --set service.type=ClusterIP --namespace postgresql
-kubectl apply -f $POSTGRES_DIR/pgadmin-ing.yaml
+kubectl apply -f $POSTGRES_DIR/pgadmin-httproute.yaml
 
 echo ""
 echo "=========================================="
