@@ -1,0 +1,32 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+  annotations:
+    # NGINX-specific annotations for timeout configuration
+    nginx.org/proxy-connect-timeout: "30s"
+    nginx.org/proxy-read-timeout: "30s"
+spec:
+  parentRefs:
+  # Bind to both HTTP and HTTPS listeners
+  - name: greencap-gateway
+    namespace: nginx-gateway
+    sectionName: http
+  - name: greencap-gateway
+    namespace: nginx-gateway
+    sectionName: https
+  hostnames:
+  - "grafana.greencap"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: prometheus-grafana
+      port: 80
+      weight: 100
+

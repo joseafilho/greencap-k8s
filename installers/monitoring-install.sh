@@ -37,9 +37,17 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
 echo "⏳ Waiting for pods to be ready..."
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=grafana -n monitoring --timeout=300s
 
+# Apply HTTPRoutes for Gateway API
+echo "🌐 Applying Gateway API HTTPRoutes..."
+kubectl apply -f ./infra-code-manifests/monitoring/grafana-httproute.yaml
+kubectl apply -f ./infra-code-manifests/monitoring/prometheus-httproute.yaml
+
 # Check installation status
 echo "🔍 Checking installation status..."
 kubectl get pods -n monitoring
+echo ""
+echo "🔍 Checking HTTPRoutes..."
+kubectl get httproute -n monitoring
 
 echo ""
 echo "=========================================="
@@ -52,4 +60,4 @@ echo "    User: admin, Password: prom-operator"
 echo ""
 echo "  - Prometheus: http://prometheus.greencap:30001"
 echo ""
-echo "==========================================" 
+echo "===========================================" 

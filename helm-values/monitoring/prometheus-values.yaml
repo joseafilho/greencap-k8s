@@ -8,15 +8,10 @@ grafana:
   persistence:
     enabled: true
     size: 5Gi
+  # Ingress disabled - using Gateway API HTTPRoute instead
+  # See: infra-code-manifests/monitoring/grafana-httproute.yaml
   ingress:
-    enabled: true
-    ingressClassName: nginx
-    hosts:
-      - grafana.greencap
-    path: /
-    pathType: Prefix
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    enabled: false
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
