@@ -10,7 +10,7 @@ set -e
 ./installers/helm-install.sh
 ./installers/cilium-install.sh
 ./installers/kubectl-top-install.sh
-./installers/ingress-controller-install.sh
+./installers/envoy-gateway-install.sh
 ./installers/kube-dash-install.sh
 ./installers/tech-docs-install.sh
 # [end] Minimal setup.
