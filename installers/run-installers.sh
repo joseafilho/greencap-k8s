@@ -8,9 +8,8 @@ set -e
 ./installers/kind-install.sh $USER_NAME_INSTALL
 ./installers/kubectl-install.sh $USER_NAME_INSTALL
 ./installers/helm-install.sh
-./installers/cilium-install.sh
+./installers/traefik-install.sh
 ./installers/kubectl-top-install.sh
-./installers/ingress-controller-install.sh
 ./installers/kube-dash-install.sh
 ./installers/tech-docs-install.sh
 # [end] Minimal setup.

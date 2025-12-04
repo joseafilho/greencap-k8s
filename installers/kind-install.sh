@@ -40,7 +40,7 @@ nodes:
 - role: worker
 - role: worker
 networking:
-  disableDefaultCNI: true # Disable the default CNI plugin
+  disableDefaultCNI: false # Enable the default CNI plugin
   podSubnet: "10.244.0.0/16"
   serviceSubnet: "10.245.0.0/16"
 EOF
