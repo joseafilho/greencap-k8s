@@ -2,18 +2,7 @@
 # This file contains the configuration to install Harbor via Helm without enabling HTTPS
 
 expose:
-  type: ingress
-  ingress:
-    className: nginx
-    hosts:
-      core: core.harbor.greencap
-      notary: notary.harbor.greencap
-    annotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-      ingress.kubernetes.io/ssl-redirect: "false"
+  type: clusterIP
   tls:
     enabled: false
 

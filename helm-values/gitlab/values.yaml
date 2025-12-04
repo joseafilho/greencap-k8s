@@ -10,7 +10,7 @@ global:
   ingress:
     configureCertmanager: false
     class: nginx
-    enabled: true
+    enabled: false
     tls:
       enabled: false
     annotations:

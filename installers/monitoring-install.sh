@@ -33,6 +33,9 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
     --wait \
     --timeout 10m
 
+echo "🌐 Applying Monitoring Routes..."
+kubectl apply -f $MONITORING_DIR/route.yaml
+
 # Wait for pods to be ready
 echo "⏳ Waiting for pods to be ready..."
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=grafana -n monitoring --timeout=300s

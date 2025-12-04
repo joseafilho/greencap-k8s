@@ -28,6 +28,9 @@ helm upgrade --install gitlab gitlab/gitlab \
   --wait \
   --timeout 20m
 
+echo "🌐 Applying GitLab Routes..."
+kubectl apply -f $GITLAB_DIR/route.yaml
+
 echo "*************************"
 echo "==> GitLab root password:"
 echo "*************************"

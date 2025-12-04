@@ -9,7 +9,7 @@ grafana:
     enabled: true
     size: 5Gi
   ingress:
-    enabled: true
+    enabled: false
     ingressClassName: nginx
     hosts:
       - grafana.greencap

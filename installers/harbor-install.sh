@@ -25,6 +25,9 @@ echo "🚀 Installing Harbor..."
 kubectl create namespace harbor
 helm install harbor harbor/harbor --version=${HARBOR_CHART_VERSION} --namespace harbor --values $HARBOR_DIR/values.yaml
 
+echo "🌐 Applying Harbor Routes..."
+kubectl apply -f $HARBOR_DIR/route.yaml
+
 echo ""
 echo "=========================================="
 echo "✅ Harbor installed successfully!"
