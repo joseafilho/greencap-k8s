@@ -5,7 +5,6 @@ set -e
 # [begin] Minimal setup.
 ./installers/configure-docker-daemon.sh
 ./installers/configure-hosts.sh
-./installers/kind-install.sh $USER_NAME_INSTALL
 ./installers/kubectl-install.sh $USER_NAME_INSTALL
 ./installers/helm-install.sh
 ./installers/cilium-install.sh
