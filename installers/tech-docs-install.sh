@@ -9,15 +9,6 @@ echo "=========================================="
 echo "📚 TechDocs Installation (MkDocs)"
 echo "=========================================="
 
-# Add entry to /etc/hosts
-echo "📝 Adding entry to /etc/hosts..."
-if ! grep -q "tech-docs.greencap" /etc/hosts; then
-    sudo bash -c 'echo "127.0.0.1 tech-docs.greencap" >> /etc/hosts'
-    echo "✅ Entry added to /etc/hosts"
-else
-    echo "ℹ️  Entry already exists in /etc/hosts"
-fi
-
 # Create namespace
 echo "Creating tech-docs namespace..."
 kubectl create namespace tech-docs --dry-run=client -o yaml | kubectl apply -f -
@@ -25,7 +16,7 @@ kubectl create namespace tech-docs --dry-run=client -o yaml | kubectl apply -f -
 # Build and load docker image
 echo "Building and loading docker image..."
 docker build -t tech-docs:latest -f $TECH_DOCS_DIR/Dockerfile $TECH_DOCS_DIR
-kind load docker-image tech-docs:latest --name greencap-k8s
+minikube image load tech-docs:latest -p greencap-k8s
 
 # Deploy TechDocs
 echo "Deploying TechDocs..."
@@ -47,7 +38,7 @@ echo "✅ TechDocs installed successfully!"
 echo "=========================================="
 echo ""
 echo "🌐 Access URL:"
-echo "  - TechDocs: http://tech-docs.greencap:30001"
+echo "  - TechDocs: http://tech-docs.greencap"
 echo ""
 echo "=========================================="
 

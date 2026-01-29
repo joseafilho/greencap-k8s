@@ -2,12 +2,12 @@
 
 set -e
 
-kubectl_install_user=$1
+KUBECTL_INSTALL_USER=$1
 
-if [ -z "$kubectl_install_user" ]; then
-    echo "Erro: Parameter user to install the kubectl not informed."
-    echo "Example: ./kubectl-install.sh ubuntu"
-    exit 1
+# Se a variável estiver vazia, usar o usuário atual
+if [ -z "$KUBECTL_INSTALL_USER" ]; then
+    KUBECTL_INSTALL_USER=$(whoami)
+    echo "User parameter not provided. Using current user: $KUBECTL_INSTALL_USER"
 fi
 
 echo "=========================================="
@@ -24,10 +24,10 @@ echo "==> kubectl installed successfully!"
 
 # Configure kubectl to use kind cluster
 echo "Configuring kubectl to use Kind cluster..."
-mkdir -p /home/$kubectl_install_user/.kube/
-sudo chown -R $kubectl_install_user:$kubectl_install_user /home/$kubectl_install_user/.kube/
-kind get kubeconfig --name greencap-k8s > /home/$kubectl_install_user/.kube/config
-ls -la /home/$kubectl_install_user/.kube
+mkdir -p /home/$KUBECTL_INSTALL_USER/.kube/
+sudo chown -R $KUBECTL_INSTALL_USER:$KUBECTL_INSTALL_USER /home/$KUBECTL_INSTALL_USER/.kube/
+kind get kubeconfig --name greencap-k8s > /home/$KUBECTL_INSTALL_USER/.kube/config
+ls -la /home/$KUBECTL_INSTALL_USER/.kube
 echo "==> kubectl configured for Kind cluster!"
 
 # Validate kubectl installation

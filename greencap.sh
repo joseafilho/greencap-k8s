@@ -16,7 +16,7 @@ AWS_SUBNET_ID=""
 AWS_SECURITY_GROUP_ID=""
 AWS_AUTO_APPROVE=false
 AWS_PUBLIC_IP=""
-USER_NAME_INSTALL="vagrant"
+USER_NAME_INSTALL=""
 SETUP_TYPE="minimal"
 CLEAN_MODE=false
 
@@ -211,7 +211,7 @@ deploy_minikube() {
         --kubernetes-version=stable
     
     # Run installers
-    # PROVIDER="$PROVIDER" USER_NAME_INSTALL="$USER_NAME_INSTALL" SETUP_TYPE="$SETUP_TYPE" ./installers/run-installers.sh
+    PROVIDER="$PROVIDER" USER_NAME_INSTALL="$USER_NAME_INSTALL" SETUP_TYPE="$SETUP_TYPE" ./installers/run-installers.sh
     
     echo ""
     echo "=========================================="

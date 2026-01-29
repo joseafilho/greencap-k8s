@@ -43,7 +43,7 @@ Some tools that make up the platform:
    - **Minikube (local Kubernetes cluster - default):**
      ```sh
      # With custom resources
-     ./greencap.sh --minikube --minikube-memory 8192 --minikube-cpus 4
+     ./greencap.sh --minikube --node-memory 8192 --node-cpus 4
      
      # With default settings (4GB RAM, 2 CPUs)
      ./greencap.sh --minikube
@@ -52,7 +52,7 @@ Some tools that make up the platform:
      ./greencap.sh
      
      # With full setup
-     ./greencap.sh --minikube --setup-type full --minikube-memory 8192 --minikube-cpus 4
+     ./greencap.sh --minikube --setup-type full --node-memory 8192 --node-cpus 4
      ```
    
    - **AWS EC2 (via Terraform):**
@@ -101,7 +101,7 @@ Set `true` for components you want to install, and `false` for those you don't.
 **Usage with Minikube:**
 
 ```sh
-./greencap.sh --minikube --setup-type custom --minikube-memory 8192 --minikube-cpus 4
+./greencap.sh --minikube --setup-type custom --node-memory 8192 --node-cpus 4
 ```
 
 > **Note:** The `greencap.ini` file is only used when `--setup-type custom` is specified. For AWS deployments, the configuration file must be manually transferred to the instance and the installation re-run with the custom setup type.
