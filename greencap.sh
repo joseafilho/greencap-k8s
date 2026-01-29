@@ -4,8 +4,9 @@ set -e
 
 # Default values
 PROVIDER="minikube"
-MINIKUBE_MEMORY=3072
-MINIKUBE_CPUS=2
+NODE_MEMORY=4096
+NODE_CPUS=2
+NODE_COUNTS=1
 MINIKUBE_DRIVER="virtualbox"
 AWS_INSTANCE_TYPE="t3a.medium"
 AWS_REGION="us-east-1"
@@ -30,19 +31,20 @@ show_usage() {
     echo "  --aws                   Deploy to AWS EC2 via Terraform"
     echo ""
     echo "Minikube Options:"
-    echo "  --minikube-memory MB    Memory in MB (default: 4096)"
-    echo "  --minikube-cpus NUM     Number of CPUs (default: 2)"
-    echo "  --user-name NAME        User name for installation (default: vagrant)"
-    echo "  --setup-type TYPE       Setup type: minimal, full, or custom (default: minimal)"
+    echo "  --node-memory           Memory in MB for each node (default: 4096 MB)"
+    echo "  --node-cpus             Number of CPUs for each node (default: 2)"
+    echo "  --node-counts           Number of nodes (default: 1)"
+    echo "  --user-name             User name for installation (default: vagrant)"
+    echo "  --setup-type            Setup type: minimal, full, or custom (default: minimal)"
     echo ""
     echo "AWS Options:"
-    echo "  --instance-type TYPE    AWS instance type (default: t3a.medium)"
-    echo "  --region REGION         AWS region (default: us-east-1)"
-    echo "  --key-name KEY          AWS key pair name (required for AWS)"
-    echo "  --ami-id AMI            AWS AMI ID (optional)"
-    echo "  --subnet-id SUBNET      AWS subnet ID (optional)"
-    echo "  --security-group SG     AWS security group ID (optional)"
-    echo "  --public-ip IP          Your public IP address (required for AWS)"
+    echo "  --instance-type         AWS instance type (default: t3a.medium)"
+    echo "  --region                AWS region (default: us-east-1)"
+    echo "  --key-name              AWS key pair name (required for AWS)"
+    echo "  --ami-id                AWS AMI ID (optional)"
+    echo "  --subnet-id             AWS subnet ID (optional)"
+    echo "  --security-group        AWS security group ID (optional)"
+    echo "  --public-ip             Your public IP address (required for AWS)"
     echo "  --auto-approve          Auto-approve terraform apply (default: false)"
     echo ""
     echo "General Options:"
@@ -51,8 +53,8 @@ show_usage() {
     echo ""
     echo "Examples:"
     echo "  Minikube (local):"
-    echo "    $0                                                    # Deploy with defaults"
-    echo "    $0 --minikube --minikube-memory 8192 --minikube-cpus 4"
+    echo "    $0                             # Deploy with defaults"
+    echo "    $0 --minikube --node-memory 8192 --node-cpus 4"
     echo "    $0 --minikube --setup-type full"
     echo ""
     echo "  AWS deployment:"
@@ -203,8 +205,9 @@ deploy_minikube() {
     minikube start \
         --profile=greencap-k8s \
         --driver="$MINIKUBE_DRIVER" \
-        --memory="$MINIKUBE_MEMORY" \
-        --cpus="$MINIKUBE_CPUS" \
+        --memory="$NODE_MEMORY" \
+        --cpus="$NODE_CPUS" \
+        --nodes="$NODE_COUNTS" \
         --kubernetes-version=stable
     
     # Run installers
@@ -216,8 +219,9 @@ deploy_minikube() {
     echo "=========================================="
     echo "Cluster Profile: greencap-k8s"
     echo "Driver: $MINIKUBE_DRIVER"
-    echo "Memory: ${MINIKUBE_MEMORY}MB"
-    echo "CPUs: $MINIKUBE_CPUS"
+    echo "Memory: ${NODE_MEMORY}MB"
+    echo "CPUs: $NODE_CPUS"
+    echo "Nodes: $NODE_COUNTS"
     echo "=========================================="
 }
 
@@ -312,12 +316,16 @@ while [[ $# -gt 0 ]]; do
             PROVIDER="minikube"
             shift
             ;;
-        --minikube-memory)
-            MINIKUBE_MEMORY="$2"
+        --node-memory)
+            NODE_MEMORY="$2"
             shift 2
             ;;
-        --minikube-cpus)
-            MINIKUBE_CPUS="$2"
+        --node-cpus)
+            NODE_CPUS="$2"
+            shift 2
+            ;;
+        --node-counts)
+            NODE_COUNTS="$2"
             shift 2
             ;;
         --aws)
@@ -425,8 +433,9 @@ if [ "$PROVIDER" = "aws" ]; then
     echo "Your Public IP: $AWS_PUBLIC_IP"
 elif [ "$PROVIDER" = "minikube" ]; then
     echo "Driver: $MINIKUBE_DRIVER"
-    echo "Memory: ${MINIKUBE_MEMORY}MB"
-    echo "CPUs: $MINIKUBE_CPUS"
+    echo "Memory: ${NODE_MEMORY}MB"
+    echo "CPUs: $NODE_CPUS"
+    echo "Nodes: $NODE_COUNTS"
     echo "User Name: $USER_NAME_INSTALL"
 fi
 echo "Setup Type: $SETUP_TYPE"
