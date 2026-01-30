@@ -2,6 +2,9 @@
 
 The Kubernetes Dashboard is a web-based user interface for Kubernetes clusters, providing an easy way to visualize and manage cluster resources.
 
+!!! info "Minikube Addon"
+    The Kubernetes Dashboard is installed as a native Minikube addon, providing seamless integration and optimized performance.
+
 ## Overview
 
 The Kubernetes Dashboard offers:
@@ -15,34 +18,6 @@ The Kubernetes Dashboard offers:
 
 ## Access
 
-### Login Steps
+<a href="http://kubernetes-dashboard.greencap" target="_blank">http://kubernetes-dashboard.greencap</a>
 
-1. Open [https://kubernetes-dashboard.greencap:30002](https://kubernetes-dashboard.greencap:30002) in your browser
-2. Select **Token** authentication method
-3. Paste the token(read step Authentication)
-4. Click **Sign in**
-
-### Authentication
-
-The dashboard requires a token for authentication. Get your access token:
-
-```bash
-# Retrieve from the secret
-kubectl describe secrets admin-user -n kubernetes-dashboard
-```
-
-!!! warning "Token Expiration"
-    Bearer tokens created with `kubectl create token` expire after 1 hour by default. If your token expires, generate a new one using the command below.
-
-### Generate a new token
-
-```bash
-# Generate a new token
-kubectl -n kubernetes-dashboard create token admin-user
-```
-
----
-
-!!! tip "Pro Tip"
-    Bookmark the dashboard URL and save a token in a password manager for quick access. For security, use tokens with short expiration times and regenerate them regularly.
 

@@ -6,7 +6,7 @@ PostgreSQL is a powerful, open-source relational database system used by applica
 
 ### pgAdmin Web Interface
 
-URL: [http://pgadmin.greencap:30001](http://pgadmin.greencap:30001)
+<a href="http://pgadmin.greencap" target="_blank">http://pgadmin.greencap</a>
 
 ```
 Username: admin@admin.com

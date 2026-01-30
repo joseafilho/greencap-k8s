@@ -7,7 +7,7 @@ GitLab provides a complete DevOps platform with Git repository management and CI
 
 ## Access
 
-URL: [http://gitlab.greencap:30001](http://gitlab.greencap:30001)
+<a href="http://gitlab.greencap" target="_blank">http://gitlab.greencap</a>
 
 ```
 Username: root
@@ -46,7 +46,7 @@ stages:
   - deploy
 
 variables:
-  DOCKER_IMAGE: core.harbor.greencap:30001/greencap-apps/myapp
+  DOCKER_IMAGE: core.harbor.greencap/greencap-apps/myapp
 
 build:
   stage: build
@@ -56,7 +56,7 @@ build:
   script:
     - docker build -t $DOCKER_IMAGE:$CI_COMMIT_SHA .
     - docker tag $DOCKER_IMAGE:$CI_COMMIT_SHA $DOCKER_IMAGE:latest
-    - docker login -u $HARBOR_USER -p $HARBOR_PASSWORD core.harbor.greencap:30001
+    - docker login -u $HARBOR_USER -p $HARBOR_PASSWORD core.harbor.greencap
     - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
     - docker push $DOCKER_IMAGE:latest
   only:

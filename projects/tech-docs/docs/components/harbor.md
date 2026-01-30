@@ -4,7 +4,7 @@ Harbor is an open-source container registry that secures artifacts with policies
 
 ## Access
 
-URL: [http://core.harbor.greencap:30001](http://core.harbor.greencap:30001)
+<a href="http://core.harbor.greencap" target="_blank">http://core.harbor.greencap</a>
 
 ```
 Username: admin
@@ -29,7 +29,7 @@ Password: Harbor12345
 ### Login to Harbor
 
 ```bash
-docker login core.harbor.greencap:30001
+docker login core.harbor.greencap
 # Username: admin
 # Password: Harbor12345
 ```
@@ -38,16 +38,16 @@ docker login core.harbor.greencap:30001
 
 ```bash
 # Tag your image
-docker tag myapp:latest core.harbor.greencap:30001/greencap-apps/myapp:latest
+docker tag myapp:latest core.harbor.greencap/greencap-apps/myapp:latest
 
 # Push to Harbor
-docker push core.harbor.greencap:30001/greencap-apps/myapp:latest
+docker push core.harbor.greencap/greencap-apps/myapp:latest
 ```
 
 ### Pull an Image
 
 ```bash
-docker pull core.harbor.greencap:30001/greencap-apps/myapp:latest
+docker pull core.harbor.greencap/greencap-apps/myapp:latest
 ```
 
 ## Project Management
@@ -83,7 +83,7 @@ Create service accounts for automation:
 
 **Use in CI/CD:**
 ```bash
-docker login core.harbor.greencap:30001 \
+docker login core.harbor.greencap \
   --username robot$myapp \
   --password <robot-token>
 ```
@@ -99,9 +99,9 @@ docker login core.harbor.greencap:30001 \
 
 Use semantic versioning:
 ```
-core.harbor.greencap:30001/project/app:v1.2.3
-core.harbor.greencap:30001/project/app:latest
-core.harbor.greencap:30001/project/app:1.2.3-alpine
+core.harbor.greencap/project/app:v1.2.3
+core.harbor.greencap/project/app:latest
+core.harbor.greencap/project/app:1.2.3-alpine
 ```
 
 ### Tag Management

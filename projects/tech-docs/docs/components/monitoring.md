@@ -6,7 +6,7 @@ The GreenCap K8s monitoring stack provides comprehensive observability using Pro
 
 ### Grafana
 
-URL: [http://grafana.greencap:30001](http://grafana.greencap:30001)
+<a href="http://grafana.greencap" target="_blank">http://grafana.greencap</a>
 
 ```
 Username: admin

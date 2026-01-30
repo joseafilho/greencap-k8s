@@ -13,6 +13,12 @@ MINIKUBE_IP=$(minikube ip -p greencap-k8s 2>/dev/null)
 echo "Minikube IP: $MINIKUBE_IP"
 echo ""
 
+# Check for use of sudo/root privileges
+if [ "$EUID" -ne 0 ]; then
+    echo "⚠️  This script must be run with 'sudo' to modify /etc/hosts."
+    echo "    Please enter your password to continue."
+fi
+
 # Backup hosts file if backup doesn't exist yet
 if [ -f /etc/hosts ] && [ ! -f /etc/hosts.gcbck ]; then
     echo "💾 Creating backup of /etc/hosts..."
@@ -24,12 +30,6 @@ fi
 if grep -q "\[begin:greencap\]" /etc/hosts && grep -q "\[end:greencap\]" /etc/hosts; then
     echo "🧹 Removing existing entries between [begin:greencap] and [end:greencap] in /etc/hosts..."
     sudo sed -i '/\[begin:greencap\]/,/\[end:greencap\]/d' /etc/hosts
-fi
-
-# Check for use of sudo/root privileges
-if [ "$EUID" -ne 0 ]; then
-    echo "⚠️  This script must be run with 'sudo' to modify /etc/hosts."
-    echo "    Please enter your password to continue."
 fi
 
 echo "Adding DNS entries to /etc/hosts..."
