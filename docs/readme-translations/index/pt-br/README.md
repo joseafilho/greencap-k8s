@@ -111,7 +111,7 @@ Defina `true` para os componentes que deseja instalar e `false` para os que não
   1. Open the virtual machine with the initial name greecap-k8s-*.
      - Default VM user: **vagrant**
      - Default VM password: **vagrant**
-  2. **GreenCap K8s TechDocs**: Access http://tech-docs.greencap:30001
+  2. **GreenCap K8s TechDocs**: Access http://tech-docs.greencap
      - You should see the GreenCap K8s TechDocs page.
      
 ## Limpeza do Ambiente

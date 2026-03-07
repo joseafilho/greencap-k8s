@@ -109,7 +109,7 @@ Set `true` for components you want to install, and `false` for those you don't.
 ## GreenCap K8s TechDocs:
 
 - **Access TechDocs:**
-  1. After deploying the Minikube cluster, access: http://tech-docs.greencap:30001
+  1. After deploying the Minikube cluster, access: http://tech-docs.greencap
      - You should see the GreenCap K8s TechDocs page.
      - ![TechDocs page](./images/techdocs-home.png)
      

@@ -51,7 +51,7 @@ grafana:
 # Prometheus Configuration
 prometheus:
   prometheusSpec:
-    retention: 15d
+    retention: 7d
     storageSpec:
       volumeClaimTemplate:
         spec:

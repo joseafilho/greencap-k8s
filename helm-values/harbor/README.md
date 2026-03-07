@@ -9,7 +9,7 @@ This document explains how to access Harbor for the first time after installatio
 Harbor is exposed via Ingress at the address:
 
 ```
-https://core.harbor.greencap:30002
+https://core.harbor.greencap
 ```
 
 ## Default Credentials
@@ -21,7 +21,7 @@ https://core.harbor.greencap:30002
 
 ## First Access
 
-1. Open the browser and access: `https://core.harbor.greencap:30002`
+1. Open the browser and access: `https://core.harbor.greencap`
 2. Log in with the credentials above
 3. On the first login, Harbor may request that you change the `admin` user password
 
@@ -31,7 +31,7 @@ https://core.harbor.greencap:30002
 
 #### Login to Harbor
 ```bash
-docker login core.harbor.greencap:30001
+docker login core.harbor.greencap
 # Username: admin
 # Password: Harbor12345
 ```
@@ -39,16 +39,16 @@ docker login core.harbor.greencap:30001
 #### Push an image to Harbor
 ```bash
 # Tag your image
-docker tag hello-world:latest core.harbor.greencap:30001/library/hello-world:latest
+docker tag hello-world:latest core.harbor.greencap/library/hello-world:latest
 
 # Push to Harbor
-docker push core.harbor.greencap:30001/library/hello-world:latest
+docker push core.harbor.greencap/library/hello-world:latest
 ```
 
 #### Pull an image from Harbor
 ```bash
 # Pull from Harbor
-docker pull core.harbor.greencap:30001/library/hello-world:latest
+docker pull core.harbor.greencap/library/hello-world:latest
 ```
 
 ## References

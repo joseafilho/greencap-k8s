@@ -5,7 +5,7 @@
 This document explains how to access pgAdmin4 installed on the Kubernetes cluster via Helm and Ingress.
 
 ```
-http://pgadmin.greencap:30001/
+http://pgadmin.greencap/
 ```
 
 ## Login

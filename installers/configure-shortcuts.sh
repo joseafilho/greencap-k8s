@@ -14,7 +14,7 @@ chown $USER_NAME_INSTALL:$USER_NAME_INSTALL /home/$USER_NAME_INSTALL/Desktop
 touch /home/$USER_NAME_INSTALL/Desktop/greencap-tech-docs.desktop
 echo "[Desktop Entry]
 Name=GreenCap TechDocs
-Exec=firefox http://tech-docs.greencap:30001/
+Exec=firefox http://tech-docs.greencap/
 Icon=firefox
 Terminal=false
 Type=Application

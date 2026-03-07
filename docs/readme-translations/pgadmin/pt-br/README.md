@@ -9,7 +9,7 @@ Este documento explica como acessar o pgAdmin4 instalado no cluster Kubernetes v
 O pgAdmin está exposto via Ingress no endereço:
 
 ```
-http://pgadmin.greencap:30001/
+http://pgadmin.greencap/
 ```
 
 ## Login

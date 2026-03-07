@@ -7,7 +7,7 @@ Stack de monitoramento do cluster Kubernetes.
 ## Acesso
 
 ### Grafana
-- **URL**: http://grafana.greencap:30001
+- **URL**: http://grafana.greencap
 - **Usuário**: admin
 - **Senha**: prom-operator
 

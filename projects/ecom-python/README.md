@@ -7,5 +7,5 @@ This API lists products from a PostgreSQL database named `ecom_python`.
 ## Access:
 
 ```
-http://ecom-python.greencap:30001/products
+http://ecom-python.greencap/products
 ```

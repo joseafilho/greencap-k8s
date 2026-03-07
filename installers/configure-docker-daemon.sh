@@ -19,8 +19,8 @@ echo "📝 Creating Docker daemon configuration..."
 sudo cat > /etc/docker/daemon.json << 'EOF'
 {
   "insecure-registries": [
-    "core.harbor.greencap:30001",
-    "notary.harbor.greencap:30001",
+    "core.harbor.greencap",
+    "notary.harbor.greencap",
     "harbor-core.harbor.svc.cluster.local"
   ]
 }
